@@ -627,6 +627,7 @@ func TestPullEmptyRemoteIsNoop(t *testing.T) {
 // create the parent directory — os.MkdirAll does not modify the mode of
 // pre-existing directories, and env.claudeDir was created at 0755 by setup.
 func TestPullSetsRestrictivePermissions(t *testing.T) {
+	skipPermsOnWindows(t)
 	env := setupTestEnv(t)
 	ctx := context.Background()
 

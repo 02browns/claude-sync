@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/tawanorg/claude-sync/internal/config"
@@ -13,8 +14,12 @@ import (
 // contain API keys, prompts, and personal context, so backups must not be
 // world-readable either.
 func TestCreateBackupSetsRestrictivePermissions(t *testing.T) {
+	if runtime.GOOS == "windows" {
+		t.Skip("Windows has no Unix permission bits; access is controlled by profile ACLs")
+	}
 	tmpHome := t.TempDir()
 	t.Setenv("HOME", tmpHome)
+	t.Setenv("USERPROFILE", tmpHome) // os.UserHomeDir reads this on Windows
 
 	// Populate ~/.claude with a file inside a syncable subdirectory so that
 	// createBackup also creates a nested directory we can stat.

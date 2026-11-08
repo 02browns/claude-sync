@@ -10,6 +10,7 @@ func TestResetClearsConfigDir(t *testing.T) {
 	// Create temp home directory
 	tmpDir := t.TempDir()
 	t.Setenv("HOME", tmpDir)
+	t.Setenv("USERPROFILE", tmpDir) // os.UserHomeDir reads this on Windows
 
 	// Create mock config directory
 	configDir := filepath.Join(tmpDir, ".claude-sync")
@@ -48,6 +49,7 @@ func TestResetClearsConfigDir(t *testing.T) {
 func TestResetClearsStateFile(t *testing.T) {
 	tmpDir := t.TempDir()
 	t.Setenv("HOME", tmpDir)
+	t.Setenv("USERPROFILE", tmpDir) // os.UserHomeDir reads this on Windows
 
 	// Create config dir and state file
 	configDir := filepath.Join(tmpDir, ".claude-sync")
@@ -80,6 +82,7 @@ func TestResetClearsStateFile(t *testing.T) {
 func TestResetPreservesClaudeDir(t *testing.T) {
 	tmpDir := t.TempDir()
 	t.Setenv("HOME", tmpDir)
+	t.Setenv("USERPROFILE", tmpDir) // os.UserHomeDir reads this on Windows
 
 	// Create both directories
 	configDir := filepath.Join(tmpDir, ".claude-sync")
